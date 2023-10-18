@@ -1,10 +1,12 @@
 import React from 'react';
+import ReactDOM from "react-dom/client";
+import UserManagement from "./ManageUsers";
 
 export default class LoggingIn extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
+            name: "",
             email: this.props.passedProps.email, // loads the email from the signUp page
             password: ''
         };
@@ -29,7 +31,8 @@ export default class LoggingIn extends React.Component {
         event.preventDefault();
 
         //Loads the database
-        const database = this.props.database;
+        const strDatabase = localStorage.getItem('localDB'); // The database that was passed as a prop
+        const database = JSON.parse(strDatabase)
 
         //Users input
         let loginEmail = this.state.email;
@@ -46,31 +49,36 @@ export default class LoggingIn extends React.Component {
         let flag = false;
 
         // Checks the validity of the email and password with each object in the database
-        for(let i = 0; i<database.length; i++){
-            let obj = database[i];
 
-            if(loginEmail === obj.email){
-                if(loginPass === obj.password){
-                    flag = true
-                    break;
-                }
-            }
+        let matchedObj = database.filter(obj => obj.email === loginEmail && obj.password === loginPass);
+        if(matchedObj.length === 1){
+            flag = true
         }
+
         // Async calls
         if(flag === true){
-            setTimeout(function() { alert("Logged In !"); }, 500);
+            setTimeout(function() { alert("Logged In!"); }, 500);
+            this.goToManageUsers();
         }
         else{
             setTimeout(function() { alert("Wrong password or email !"); }, 500);
         }
 
+    }
 
+    goToManageUsers =()=>{
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+
+        root.render(
+            <UserManagement passedProps={this.state}/>
+        )
     }
 
 
     render(){
 
         return (
+            <div>
             <form onSubmit={this.handleSubmit}>
 
                 <label>Email:</label>
@@ -82,5 +90,7 @@ export default class LoggingIn extends React.Component {
 
                 <button type="submit">Submit</button>
             </form>
+            </div>
+
         );}
 }

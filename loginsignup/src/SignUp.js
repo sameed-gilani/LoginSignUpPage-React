@@ -34,7 +34,9 @@ export default class SigningUp extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault(); // Prevents the form from being submitted
 
-        const database = this.props.database; // The database that was passed as a prop
+        const strDatabase = localStorage.getItem('localDB'); // The database that was passed as a prop
+        const database = JSON.parse(strDatabase)
+
         let signUpEmail = this.state.email; // The users input email
 
         this.ManageSignUp(signUpEmail,database);
@@ -53,22 +55,23 @@ export default class SigningUp extends React.Component {
         }
 
         // Searches the database to see if the same email already exists
-        for(let i = 0; i<database.length; i++){
-            let obj = database[i]
-            if(signUpEmail === obj.email){
-                alert("Email already Exists. Sign in instead?")
-                flag = true
-                break;
-            }
+
+        let matchedObj = database.filter(obj => obj.email === signUpEmail);
+        if(matchedObj.length === 1){
+            alert("Email already Exists. Sign in instead?")
+            flag = true
         }
+
 
         // If everything is valid, user gets an alert and the login page loads
         if(flag === false){
             database.push(this.state);
+            localStorage.setItem('localDB',JSON.stringify(database))
             alert("Signed Up. Loading Login Page");
             setTimeout(this.goToLogin,1000); // Async Call
         }
     }
+
 
     // renders the login page
     goToLogin = ()=>{
@@ -76,7 +79,7 @@ export default class SigningUp extends React.Component {
         const root = ReactDOM.createRoot(document.getElementById('root'));
 
         root.render(
-            <LoggingIn database={this.props.database} passedProps={this.state}/>
+            <LoggingIn passedProps={this.state}/>
         )
     }
 
