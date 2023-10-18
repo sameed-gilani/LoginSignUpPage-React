@@ -1,23 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
+import SigningUp from "./SignUp";
+
 
 function App() {
+
+    // Database to store user details
+    const database = [
+        {name:"sameed", email:"sameed@email.com", password:"1234"},
+        {name:"abc", email:"abc@email.com", password:"1234"},
+        {name:"def", email:"def@email.com", password:"1234"},
+    ];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+
+      <SigningUp database={database}/>
+
     </div>
   );
 }
