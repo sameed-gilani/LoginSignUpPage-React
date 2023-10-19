@@ -11,7 +11,7 @@ function App() {
         {name:"def", email:"def@email.com", password:"1234"},
     ];
 
-    if(localStorage.getItem('localDB').length === 3){
+    if(localStorage.getItem('localDB').length < 3){
         localStorage.setItem('localDB', JSON.stringify(database));
     }
 

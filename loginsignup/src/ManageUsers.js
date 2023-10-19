@@ -36,7 +36,7 @@ export default class UserManagement extends React.Component {
         let updatedDB = database.filter(obj => obj.email !== delEmail);
 
         localStorage.setItem('localDB',JSON.stringify(updatedDB))
-
+        this.forceUpdate();
 
 
     }
