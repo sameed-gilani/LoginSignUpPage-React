@@ -31,8 +31,8 @@ export default function UserManagement(props){
     function handleViewChangeSignUp(){
         setCurrentView('SignUp')
     }
-    function handleViewChangeLogin(){
-        setCurrentView('Login')
+    function handleViewChange(param){
+        setCurrentView(param)
     }
 
 
@@ -40,8 +40,8 @@ export default function UserManagement(props){
         return (
             <div>
                 {listUsers()}
-                <button onClick={handleViewChangeSignUp}>Go to Sign up</button>
-                <button onClick={handleViewChangeLogin}>Go to Login</button>
+                <button onClick={()=>handleViewChange("SignUp")}>Go to Sign up</button>
+                <button onClick={()=>handleViewChange("Login")}>Go to Login</button>
             </div>
         );
     }
