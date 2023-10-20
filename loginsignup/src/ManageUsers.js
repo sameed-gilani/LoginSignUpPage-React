@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from "react-dom/client";
+import LoggingIn from "./Login";
+import SigningUp from "./SignUp";
 
 export default class UserManagement extends React.Component {
     constructor(props) {
@@ -7,19 +9,38 @@ export default class UserManagement extends React.Component {
         this.state = {
             name: "",
             email: this.props.passedProps.email, // loads the email from the signUp page
-            password: ''
+            password: '',
+            db: JSON.parse(localStorage.getItem('localDB')),
+            currentView: 'ManageUsers'
         };
+
+    }
+
+    handleMouseOut=()=>{
+        console.log("Out");
+    }
+
+    handleMouseOver =(event)=>{
+
+        let userEmail = event.target.value;
+
+        const database = this.state.db
+
+        let matchedObj = database.filter(obj => obj.email === userEmail);
+        console.log(matchedObj);
 
     }
 
 
     listUsers = () =>{
 
-        const strDatabase = localStorage.getItem('localDB'); // The database that was passed as a prop
-        const database = JSON.parse(strDatabase)
+        const database = this.state.db
 
         const listItems = database.map((user) =>
-            <li>{user.email+"    ->    "}<button value ={user.email} onClick={this.handleDelete}> Delete</button></li>
+            <li key={user.email} >{user.email+"    ->    "}<button value ={user.email}
+                                                 onClick={this.handleDelete}
+                                                 onMouseOver={this.handleMouseOver}
+                                                 onMouseOut={this.handleMouseOut}>Delete</button></li>
         );
         return (
             <ul>{listItems} </ul>
@@ -29,26 +50,48 @@ export default class UserManagement extends React.Component {
     handleDelete = (event)=>{
 
         let delEmail = event.target.value;
+        let database = this.state.db;
 
-        const strDatabase = localStorage.getItem('localDB'); // The database that was passed as a prop
-        const database = JSON.parse(strDatabase)
+        // const strDatabase = localStorage.getItem('localDB'); // The database that was passed as a prop
+        // const database = JSON.parse(strDatabase)
+
 
         let updatedDB = database.filter(obj => obj.email !== delEmail);
 
+        this.setState({db: updatedDB})
         localStorage.setItem('localDB',JSON.stringify(updatedDB))
-        this.forceUpdate();
 
 
     }
 
-
+    goToLogin=()=>{
+        this.setState({currentView:'Login'})
+    }
+    goToSignUp=()=>{
+        this.setState({currentView:'SignUp'})
+    }
     render(){
 
-        return (
-            <div>
-                {this.listUsers()}
+        if(this.state.currentView === 'ManageUsers'){
+            return (
+                <div>
+                    {this.listUsers()}
+                    <button onClick={this.goToSignUp}>Go to Sign up</button>
+                    <button onClick={this.goToLogin}>Go to Login</button>
 
-            </div>
+                </div>
+            );
+        }
+        if(this.state.currentView === 'Login'){
+            return(
+                <LoggingIn passedProps={this.state}/>
+            );
+        }
+        if(this.state.currentView === 'SignUp'){
+            return(
+                <SigningUp passedProps={this.state}/>
+                );
+        }
 
-        );}
+    }
 }

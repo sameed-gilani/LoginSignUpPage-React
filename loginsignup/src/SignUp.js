@@ -2,13 +2,15 @@ import React from 'react';
 import LoggingIn from "./Login";
 import ReactDOM from "react-dom/client";
 
+
 export default class SigningUp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             name: '',
             email: '',
-            password: ''
+            password: '',
+            currentView: 'SignUp'
         };
 
     }
@@ -67,6 +69,7 @@ export default class SigningUp extends React.Component {
         if(flag === false){
             database.push(this.state);
             localStorage.setItem('localDB',JSON.stringify(database))
+
             alert("Signed Up. Loading Login Page");
             setTimeout(this.goToLogin,1000); // Async Call
         }
@@ -76,12 +79,14 @@ export default class SigningUp extends React.Component {
     // renders the login page
     goToLogin = ()=>{
         console.log("Clicked")
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-
-        root.render(
-            <LoggingIn passedProps={this.state}/>
-        )
+        this.setState({currentView:'Login'})
+        // const root = ReactDOM.createRoot(document.getElementById('root'));
+        //
+        // root.render(
+        //     <LoggingIn passedProps={this.state}/>
+        // )
     }
+
 
     // Returns true if the email is valid
     ValidateEmail = (mail) => {
@@ -94,20 +99,27 @@ export default class SigningUp extends React.Component {
 
     render(){
 
-        return (
-        <form onSubmit={this.handleSubmit}>
-            <label>Name:</label>
-            <input value={this.state.name} name="Name" onChange={this.handleChangeName}/>
+        if(this.state.currentView === 'SignUp'){
+            return (
+                <form onSubmit={this.handleSubmit}>
+                    <label>Name:</label>
+                    <input value={this.state.name} name="Name" onChange={this.handleChangeName}/>
 
-            <label>Email:</label>
-            <input value={this.state.email} name="Email" onChange={this.handleChangeEmail}/>
+                    <label>Email:</label>
+                    <input value={this.state.email} name="Email" onChange={this.handleChangeEmail}/>
 
-            <label>Password:</label>
-            <input value={this.state.password} name="Password" onChange={this.handleChangePass}/>
+                    <label>Password:</label>
+                    <input value={this.state.password} name="Password" onChange={this.handleChangePass}/>
 
-            <button type="submit">Submit</button>
-            <button onClick={this.goToLogin}>Sign in?</button>
-        </form>
-
-    );}
+                    <button type="submit">Submit</button>
+                    <button onClick={this.goToLogin}>Sign in?</button>
+                </form>
+            );
+        }
+        if(this.state.currentView === 'Login'){
+            return(
+                <LoggingIn passedProps={this.state}/>
+            );
+        }
+    }
 }

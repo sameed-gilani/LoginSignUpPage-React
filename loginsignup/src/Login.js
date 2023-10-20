@@ -8,7 +8,8 @@ export default class LoggingIn extends React.Component {
         this.state = {
             name: "",
             email: this.props.passedProps.email, // loads the email from the signUp page
-            password: ''
+            password: '',
+            currentView: 'Login'
         };
 
     }
@@ -67,30 +68,42 @@ export default class LoggingIn extends React.Component {
     }
 
     goToManageUsers =()=>{
-        const root = ReactDOM.createRoot(document.getElementById('root'));
+        // const root = ReactDOM.createRoot(document.getElementById('root'));
+        //
+        // root.render(
+        //     <UserManagement passedProps={this.state}/>
+        // )
+        this.setState({currentView:'ManageUsers'})
 
-        root.render(
-            <UserManagement passedProps={this.state}/>
-        )
     }
 
 
     render(){
 
-        return (
-            <div>
-            <form onSubmit={this.handleSubmit}>
+        if(this.state.currentView === 'Login'){
+            return (
+                <div>
+                    <form onSubmit={this.handleSubmit}>
 
-                <label>Email:</label>
-                <input value={this.state.email} name="Email" onChange={this.handleChangeEmail}/>
+                        <label>Email:</label>
+                        <input value={this.state.email} name="Email" onChange={this.handleChangeEmail}/>
 
-                <label>Password:</label>
-                <input value={this.state.password} name="Password" onChange={this.handleChangePass}/>
+                        <label>Password:</label>
+                        <input value={this.state.password} name="Password" onChange={this.handleChangePass}/>
 
 
-                <button type="submit">Submit</button>
-            </form>
-            </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
 
-        );}
+            );
+        }
+        if(this.state.currentView === 'ManageUsers'){
+            return(
+                <UserManagement passedProps={this.state}/>
+            );
+        }
+
+
+    }
 }

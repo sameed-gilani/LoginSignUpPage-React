@@ -1,8 +1,10 @@
 import './App.css';
 import SigningUp from "./SignUp";
+import ReactDOM from "react-dom/client";
 
 
 function App() {
+
 
     // Database to store user details
     const database = [
@@ -11,7 +13,9 @@ function App() {
         {name:"def", email:"def@email.com", password:"1234"},
     ];
 
-    if(localStorage.getItem('localDB').length < 3){
+    // console.log("LEN : " + localStorage.getItem('localDB').length)
+
+    if(localStorage.getItem('localDB') === '[]'){
         localStorage.setItem('localDB', JSON.stringify(database));
     }
 
