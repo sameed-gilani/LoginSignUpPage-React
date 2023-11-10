@@ -2,9 +2,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {
     increment,
     decrement,
-    reset,
-    incrementByAmount
-} from "./CounterSlice";
+} from "./actions";
 
 import {useState} from "react";
 

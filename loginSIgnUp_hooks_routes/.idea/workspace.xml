@@ -36,8 +36,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "hooks__practice",
-    "last_opened_file_path": "/home/sameed/Desktop/formik_forms",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/home/sameed/Desktop/React /loginSIgnUp_hooks_routes",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -77,6 +77,7 @@
       <workItem from="1698043169573" duration="162000" />
       <workItem from="1698149077886" duration="1677000" />
       <workItem from="1698221592346" duration="22954000" />
+      <workItem from="1698645387282" duration="7891000" />
     </task>
     <servers />
   </component>
